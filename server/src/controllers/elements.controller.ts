@@ -46,10 +46,7 @@ export const getElements = async (req: Request, res: Response) => {
       },
     });
 
-    return res.status(200).json({
-      message: "Elements fetched successfully",
-      elements: fetchedElement,
-    });
+    return res.status(200).json(fetchedElement);
   } catch (error) {
     console.error("Fetching error", error);
     return res.status(500).json({
@@ -102,11 +99,9 @@ export const createElement = async (req: Request, res: Response) => {
       },
     });
 
-    return res.status(201).json({
-      message: "Element created successfully",
-      element: newElement,
-    });
-  } catch {
+    return res.status(201).json(newElement);
+  } catch (error) {
+    console.error("Create element error", error);
     return res.status(500).json({
       error: "Failed to create new element",
     });
@@ -164,10 +159,7 @@ export const updateElement = async (req: Request, res: Response) => {
       data: updateData,
     });
 
-    return res.status(200).json({
-      message: "Element updated successfully",
-      element: updatedElement,
-    });
+    return res.status(200).json(updatedElement);
   } catch (error) {
     console.error("Update error", error);
     return res.status(500).json({
@@ -221,16 +213,13 @@ export const deleteElement = async (req: Request, res: Response) => {
       }
     }
 
-    const deletedElement = await prisma.element.delete({
+    await prisma.element.delete({
       where: { id: elementId },
     });
 
-    return res.status(200).json({
-      message: "Element deleted successfully",
-      element: deletedElement,
-    });
+    return res.status(200).json({ message: "Element deleted successfully" });
   } catch (error) {
-    console.error("Update error", error);
+    console.error("Delete element error", error);
     return res.status(500).json({
       error: "Failed to delete element",
     });
