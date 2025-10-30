@@ -1,26 +1,27 @@
 // Authentication Types
+// Base User type is imported from @prisma/client
+// This file contains API request/response types and safe user type (without password)
 
-// TODO: Define User type (what gets returned to frontend - NO password!)
-export type User = {
+// Safe user type for frontend (excludes password)
+export type SafeUser = {
   id: string;
   email: string;
   name: string;
   profileAvatar: string | null;
 };
 
-// TODO: Define LoginRequest type (email, password)
+// Login request
 export type LoginRequest = {
   email: string;
   password: string;
 };
 
-// TODO: Define LoginResponse type (user + token)
 export type LoginResponse = {
-  user: User;
+  user: SafeUser;
   token: string;
 };
 
-// TODO: Define RegisterRequest type (email, password, name)
+// Register request
 export type RegisterRequest = {
   email: string;
   password: string;
@@ -29,6 +30,6 @@ export type RegisterRequest = {
 };
 
 export type RegisterResponse = {
-  user: User;
+  user: SafeUser;
   token: string;
 };

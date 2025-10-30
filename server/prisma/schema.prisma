@@ -1,0 +1,93 @@
+// Prisma Schema for Mix Reference Analyzer
+// This file defines your database schema and generates the Prisma Client
+
+// Database connection configuration
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Prisma Client generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+// User model (authentication)
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  profileAvatar String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relationships
+  sessions Session[]
+  folders  Folder[]
+
+  @@map("users")
+}
+
+// Anonymous sessions (24-hour TTL)
+model AnonymousSession {
+  id         String   @id @default(uuid())
+  data       Json     // Stores analysis data temporarily
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([expiresAt])
+  @@map("anonymous_sessions")
+}
+
+// Folders for organizing sessions
+model Folder {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  createdAt DateTime @default(now())
+
+  // Relationships
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions Session[]
+
+  @@index([userId])
+  @@map("folders")
+}
+
+// Permanent sessions (registered users)
+model Session {
+  id                String   @id @default(uuid())
+  userId            String
+  name              String
+  folderId          String?
+  referenceAnalysis Json     // Stores reference track analysis data
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relationships
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder      Folder?      @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  mixVersions MixVersion[]
+
+  @@index([userId])
+  @@index([folderId])
+  @@map("sessions")
+}
+
+// Mix versions
+model MixVersion {
+  id            String   @id @default(uuid())
+  sessionId     String
+  versionNumber Int
+  analysis      Json     // Mix analysis data
+  comparison    Json     // Comparison to reference
+  insights      Json     // Generated insights array
+  createdAt     DateTime @default(now())
+
+  // Relationships
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@map("mix_versions")
+}

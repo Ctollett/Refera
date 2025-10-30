@@ -1,4 +1,4 @@
-# Claude Code Guidelines for Moodlet Project
+# Claude Code Guidelines for Refera Project
 
 ## Project Purpose
 

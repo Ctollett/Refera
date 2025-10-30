@@ -3,22 +3,24 @@ import RegisterForm from "../components/auth/RegisterForm";
 
 /**
  * Welcome/Landing Page
- * Shows login and register options to unauthenticated users
+ * Mix Reference Analyzer - Compare your mixes against professional reference tracks
  */
 const Welcome = () => {
-  // TODO: Add state for modal visibility
-  // TODO: Implement modal for auth forms
-
   return (
     <div className="welcome-page">
-      <h1>Welcome to Moodlet</h1>
+      <h1>Mix Reference Analyzer</h1>
+      <p>Compare your mixes against professional reference tracks</p>
 
-      {/* Temporary: Showing RegisterForm directly for testing */}
-      <RegisterForm />
+      {/* Temporary: Showing auth forms directly for testing */}
+      <div>
+        <h2>Register</h2>
+        <RegisterForm />
+      </div>
 
-      {/* TODO: Add buttons to open login/register modals */}
-      <LoginForm />
-      {/* TODO: Add AuthModal component */}
+      <div>
+        <h2>Login</h2>
+        <LoginForm />
+      </div>
     </div>
   );
 };

@@ -1,21 +1,19 @@
-import BoardGrid from "../components/boards/BoardGrid";
-import CreateBoard from "../components/boards/CreateBoardCard";
-
 /**
  * Dashboard Page
- * Main application page for authenticated users
- * TODO: This should be a protected route
+ * Displays user's saved sessions organized by folders
+ * TODO: Implement session list
+ * TODO: Implement folder organization
+ * TODO: Add create session button
  */
 const Dashboard = () => {
-  // TODO: Add logout functionality
-  // TODO: Add main app features (mood tracking, etc.)
-
   return (
-    <div className="dashboard">
+    <div className="dashboard-page">
       <h1>Dashboard</h1>
-      <p>Welcome to your dashboard!</p>
-      <CreateBoard />
-      <BoardGrid />
+      <p>Your saved analysis sessions will appear here.</p>
+
+      {/* TODO: Add session list */}
+      {/* TODO: Add folder navigation */}
+      {/* TODO: Add create new session button */}
     </div>
   );
 };

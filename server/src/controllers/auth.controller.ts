@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-import { prisma } from "../prisma/client.js";
+import { prisma } from "../lib/prisma.js";
 /**
  * Register a new user
  * @param req - Express request with body: { name, email, password }

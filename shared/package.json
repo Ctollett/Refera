@@ -11,6 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@prisma/client": "^6.18.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

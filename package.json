@@ -1,7 +1,7 @@
 {
-  "name": "moodlet",
+  "name": "refera",
   "version": "1.0.0",
-  "description": "Cloud-native collaborative whiteboarding app",
+  "description": "Browser-based audio analysis tool for music producers",
   "private": true,
   "workspaces": [
     "client",
@@ -23,13 +23,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Ctollett/moodlet.git"
+    "url": "git+https://github.com/Ctollett/Refera.git"
   },
   "keywords": [
-    "whiteboard",
-    "collaboration",
-    "real-time",
-    "canvas"
+    "audio-analysis",
+    "music-production",
+    "lufs",
+    "frequency-analysis",
+    "mixing"
   ],
   "author": "",
   "license": "ISC",
