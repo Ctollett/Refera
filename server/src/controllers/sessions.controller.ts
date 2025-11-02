@@ -203,3 +203,50 @@ export const getSessionById = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error retrieving session" });
   }
 };
+
+export const updateReferenceAnalysis = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.userId;
+    const { referenceAnalysis } = req.body;
+    const { id } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const session = await prisma.session.findFirst({
+      where: {
+        id: id,
+        userId: userId,
+      },
+    });
+
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    const updatedReferenceAnalysis = await prisma.session.update({
+      where: { id: id },
+      data: {
+        referenceAnalysis: referenceAnalysis,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Reference analysis updated successfully",
+      session: {
+        id: updatedReferenceAnalysis.id,
+        name: updatedReferenceAnalysis.name,
+        folderId: updatedReferenceAnalysis.folderId,
+        referenceAnalysis: updatedReferenceAnalysis.referenceAnalysis,
+        userId: updatedReferenceAnalysis.userId,
+        createdAt: updatedReferenceAnalysis.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("PATCH error: ", error);
+    return res.status(500).json({
+      error: "Reference analysis update failed",
+    });
+  }
+};

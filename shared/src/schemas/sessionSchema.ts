@@ -5,7 +5,7 @@ import { ReferenceAnalysisSchema } from "./analysisSchema";
 const CreateSessionSchema = z.object({
   name: z.string(),
   folderId: z.string().uuid().nullable().optional(),
-  referenceAnalysis: ReferenceAnalysisSchema.optional(),
+  referenceAnalysis: ReferenceAnalysisSchema.nullish(),
 });
 
 const UpdateSessionSchema = z.object({
@@ -13,4 +13,8 @@ const UpdateSessionSchema = z.object({
   folderId: z.string().uuid().nullable().optional(),
 });
 
-export { CreateSessionSchema, UpdateSessionSchema };
+const UpdateReferenceAnalysisSchema = z.object({
+  referenceAnalysis: ReferenceAnalysisSchema,
+});
+
+export { CreateSessionSchema, UpdateSessionSchema, UpdateReferenceAnalysisSchema };

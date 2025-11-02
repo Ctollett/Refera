@@ -57,6 +57,7 @@ export const validateRequest = (schema: ZodSchema) => {
       return next();
     } catch (error) {
       if (error instanceof ZodError) {
+        console.error("Validation failed:", error.errors);
         return res.status(400).json({
           message: "Validation failed",
           error: error.errors.map((err) => ({
@@ -65,6 +66,7 @@ export const validateRequest = (schema: ZodSchema) => {
           })),
         });
       }
+      console.error("Unexpected validation error:", error);
       return res.status(500).json({
         message: "Validation error",
         error: "An unexpected error occurred",

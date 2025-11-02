@@ -61,7 +61,7 @@ model Session {
   userId            String
   name              String
   folderId          String?
-  referenceAnalysis Json     // Stores reference track analysis data
+  referenceAnalysis Json?    // Stores reference track analysis data (optional, added after upload)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 

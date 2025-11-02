@@ -1,4 +1,4 @@
-import type { Session } from "shared";
+import type { ReferenceAnalysis, Session } from "shared";
 import type { CreateSession, UpdateSession } from "shared/src/types/session.types";
 import { create } from "zustand";
 
@@ -12,6 +12,10 @@ interface SessionState {
   getSessionById: (sessionId: string) => Promise<Session>;
   createSession: (sessionData: CreateSession) => Promise<Session>;
   updateSession: (sessionId: string, sessionData: UpdateSession) => Promise<Session>;
+  updateReferenceAnalysis: (
+    sessionId: string,
+    referenceAnalysis: ReferenceAnalysis,
+  ) => Promise<ReferenceAnalysis>;
   deleteSession: (sessionId: string) => Promise<Session>;
 }
 
@@ -70,6 +74,26 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       return data;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Failed to update session";
+      set({ error: errorMessage, loading: false });
+      throw error;
+    }
+  },
+
+  updateReferenceAnalysis: async (sessionId: string, referenceAnalysis: ReferenceAnalysis) => {
+    set({ loading: true, error: null });
+    try {
+      const data = await sessionService.updateReferenceAnalysis(sessionId, referenceAnalysis);
+      // Update the specific session's reference analysis
+      set({
+        sessions: get().sessions.map((s) =>
+          s.id === sessionId ? { ...s, referenceAnalysis: data } : s,
+        ),
+        loading: false,
+      });
+      return data;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to update reference analysis";
       set({ error: errorMessage, loading: false });
       throw error;
     }

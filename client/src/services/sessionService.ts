@@ -1,4 +1,5 @@
 import { CreateSessionSchema, UpdateSessionSchema } from "shared";
+import type { ReferenceAnalysis } from "shared";
 import { z } from "zod";
 
 import axiosInstance from "./axiosService";
@@ -9,7 +10,7 @@ type UpdateSessionData = z.infer<typeof UpdateSessionSchema>;
 export const createSession = async (sessionData: CreateSessionData) => {
   try {
     const response = await axiosInstance.post("/sessions", sessionData);
-    return response.data;
+    return response.data.session;
   } catch (error) {
     console.error("Failed to create a session", error);
     throw error;
@@ -19,9 +20,25 @@ export const createSession = async (sessionData: CreateSessionData) => {
 export const updateSession = async (sessionId: string, sessionData: UpdateSessionData) => {
   try {
     const response = await axiosInstance.patch(`/sessions/${sessionId}`, sessionData);
-    return response.data;
+    return response.data.session;
   } catch (error) {
     console.error("Failed to update session", error);
+    throw error;
+  }
+};
+
+export const updateReferenceAnalysis = async (
+  sessionId: string,
+  referenceAnalysis: ReferenceAnalysis,
+) => {
+  try {
+    const response = await axiosInstance.patch(
+      `/sessions/${sessionId}/reference`,
+      referenceAnalysis,
+    );
+    return response.data.referenceAnalysis;
+  } catch (error) {
+    console.error("Failed to update reference analysis", error);
     throw error;
   }
 };
@@ -49,7 +66,7 @@ export const getSessionById = async (sessionId: string) => {
 export const deleteSession = async (sessionId: string) => {
   try {
     const response = await axiosInstance.delete(`/sessions/${sessionId}`);
-    return response.data;
+    return response.data.session;
   } catch (error) {
     console.error(`Failed to delete session: ${sessionId}`, error);
     throw error;
